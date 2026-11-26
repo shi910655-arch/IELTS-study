@@ -1355,5 +1355,6 @@
  "批请求已经计费却没有用上，为免继续扣费，其余字幕改用本地翻译。": "Anfragen wurden abgerechnet, konnten aber nicht genutzt werden. Um weitere Kosten zu vermeiden, nutzen die übrigen Untertitel die lokale Übersetzung.",
  "不到": "unter",
  "token · 不到": "Token · unter",
- "token · 可估价部分不到": "Token · berechenbarer Teil unter"
+ "token · 可估价部分不到": "Token · berechenbarer Teil unter",
+ "（这句没有译出）": "(Diese Zeile konnte nicht übersetzt werden)"
 }

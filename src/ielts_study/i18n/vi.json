@@ -1355,5 +1355,6 @@
  "批请求已经计费却没有用上，为免继续扣费，其余字幕改用本地翻译。": "lô yêu cầu đã bị tính phí nhưng không dùng được. Để tránh tiếp tục bị trừ phí, các phụ đề còn lại chuyển sang dịch cục bộ.",
  "不到": "dưới",
  "token · 不到": "token · dưới",
- "token · 可估价部分不到": "token · phần ước tính được dưới"
+ "token · 可估价部分不到": "token · phần ước tính được dưới",
+ "（这句没有译出）": "(Không thể dịch câu này)"
 }

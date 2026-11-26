@@ -49,7 +49,7 @@ function render() {
     <span class="sent" id="s${c.i}" data-i="${c.i}">${enHtml(c)}` +
       `<button type="button" class="sent-tr" data-tr="${c.i}" title="看这一句的中文">译</button>` + sentenceButton(c.text, c.i) +
       // one Chinese line only: when the phrases already carry their Chinese, skip the whole-sentence translation
-      (zhOn && interlinearFor(c, data.translator) ? "" : `<span class="sent-zh"${zhLowAttrs(c)}>${esc(c.zh || "")}</span>`) +
+      (zhOn && interlinearFor(c, data.translator) ? "" : `<span class="sent-zh"${zhLowAttrs(c)}>${esc(zhText(c))}</span>`) +
       `</span>`).join(" ")}</div>`).join("");
   $("#zhBtn").setAttribute("aria-pressed", zhOn);
   $("#zhBtn").classList.toggle("on", zhOn);
@@ -79,7 +79,7 @@ document.addEventListener("click", async e => {
     const c = cues[+tr.dataset.tr];
     showPop(tr, `<div class="note" style="border:0;padding:0"><div class="h"><span class="muted">第 ${c.i + 1} 句</span>
       <span class="act"><button class="iconbtn" data-speak="${esc(c.text)}" title="朗读这一句">🔊 朗读</button></span></div>
-      <div class="zh"${zhLowAttrs(c)}>${esc(c.zh || "（没有译文）")}</div></div>`);
+      <div class="zh"${zhLowAttrs(c)}>${esc(zhText(c) || "（没有译文）")}</div></div>`);
     return;
   }
   const word = e.target.closest(".article-body .w, .article-body mark");

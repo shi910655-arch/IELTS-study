@@ -1355,5 +1355,6 @@
  "批请求已经计费却没有用上，为免继续扣费，其余字幕改用本地翻译。": "istekler faturalandırıldı ancak kullanılamadı. Daha fazla ücret alınmaması için kalan altyazılar yerel çeviri kullanıyor.",
  "不到": "altında",
  "token · 不到": "token · altında",
- "token · 可估价部分不到": "token · fiyatlandırılabilir kısım altında"
+ "token · 可估价部分不到": "token · fiyatlandırılabilir kısım altında",
+ "（这句没有译出）": "(Bu satır çevrilemedi)"
 }

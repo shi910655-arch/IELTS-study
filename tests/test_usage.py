@@ -78,7 +78,7 @@ def test_answered_requests_are_recorded_under_their_purpose(monkeypatch):
 
 @pytest.fixture
 def local(monkeypatch):
-    def fake_local(cues, progress=None, done=0, total=None, lang="zh-CN", log=None):
+    def fake_local(cues, progress=None, done=0, total=None, lang="zh-CN", log=None, keep=False):
         for c in cues:
             c["zh"] = "本地"
     monkeypatch.setattr(translate, "_translate_local", fake_local)

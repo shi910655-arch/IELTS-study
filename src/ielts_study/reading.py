@@ -173,8 +173,9 @@ def run_retranslate_job(pipeline, job) -> None:
             pipeline._set(job, "translate")
             job.log.append(f"使用{'API' if settings.engine == 'api' else '本地'}翻译 {len(data['cues'])} 句…")
             spent = usage.snapshot()
+            same_language = data.get("lang", "zh-CN") == lang  # then a line that fails keeps its old translation
             data["translator"] = translate_cues(data["cues"], lambda p: setattr(job, "percent", p),
-                                                settings=settings, log=job.log.append, lang=lang)
+                                                settings=settings, log=job.log.append, lang=lang, keep=same_language)
             data["translatorModel"] = settings.model if data["translator"] in ("api", "api+local") else ""
             meanings.fill_notes(data["cues"], lang, settings, job.log.append)
             if spent_line := usage.describe(usage.since(spent)):

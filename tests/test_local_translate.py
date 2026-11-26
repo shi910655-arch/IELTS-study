@@ -25,7 +25,7 @@ class FakeModel:
             raise RuntimeError("bad batch")
         out = []
         for source in sources:
-            if source == "boom":
+            if source.lower() == "boom":
                 raise RuntimeError("bad line")
             text, score = self.replies.get(source, (f"译:{source}", -0.5))
             out.append(SimpleNamespace(hypotheses=[[text]], scores=[score]))
@@ -88,7 +88,8 @@ def test_other_languages_get_no_chinese_fixes(model):
 def test_a_failing_batch_falls_back_to_one_line_at_a_time(monkeypatch):
     fake = FakeModel({"Hi there.": ("你好。", -0.5)}, fail_batches=True)
     monkeypatch.setattr(translate, "_model", lambda lang="zh-CN", log=None: (fake, fake, ""))
-    assert translate.translate_local(["Hi there.", "boom"]) == [("你好。", False), ("", False)]
+    # the line that fails is retried once; failing again it comes back empty and marked, never silently blank
+    assert translate.translate_local(["Hi there.", "boom"]) == [("你好。", False), ("", True)]
 
 
 def test_cues_get_the_low_mark_and_api_translations_clear_it(model, monkeypatch):

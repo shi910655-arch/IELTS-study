@@ -1355,5 +1355,6 @@
  "批请求已经计费却没有用上，为免继续扣费，其余字幕改用本地翻译。": "solicitações cobradas não puderam ser usadas. Para evitar novas cobranças, as legendas restantes usam tradução local.",
  "不到": "menos de",
  "token · 不到": "token · menos de",
- "token · 可估价部分不到": "token · parte estimável menos de"
+ "token · 可估价部分不到": "token · parte estimável menos de",
+ "（这句没有译出）": "(Esta linha não pôde ser traduzida)"
 }

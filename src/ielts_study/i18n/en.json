@@ -1355,5 +1355,6 @@
  "批请求已经计费却没有用上，为免继续扣费，其余字幕改用本地翻译。": "billed requests could not be used. To stop further charges, the remaining subtitles use local translation.",
  "不到": "under",
  "token · 不到": "token · under",
- "token · 可估价部分不到": "token · priced part under"
+ "token · 可估价部分不到": "token · priced part under",
+ "（这句没有译出）": "(This line could not be translated)"
 }

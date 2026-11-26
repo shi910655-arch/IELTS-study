@@ -124,8 +124,9 @@ class Pipeline:
                 engine = "API" if settings.engine == "api" else "本地"
                 log(f"使用{engine}翻译 {len(cues)} 句字幕…")
                 spent = usage.snapshot()
+                same_language = data.get("lang", "zh-CN") == lang  # then a line that fails keeps its old translation
                 data["translator"] = translate_cues(cues, lambda p: setattr(job, "percent", p), settings=settings,
-                                                    log=log, lang=lang)
+                                                    log=log, lang=lang, keep=same_language)
                 data["translatorModel"] = settings.model if data["translator"] in ("api", "api+local") else ""
                 meanings.fill_notes(cues, lang, settings, log)
                 log(usage.describe(usage.since(spent)))

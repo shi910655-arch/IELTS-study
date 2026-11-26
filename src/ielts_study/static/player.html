@@ -90,7 +90,7 @@ function renderList() {
   $("#list").innerHTML = cues.map(c => `
     <div class="cue" data-i="${c.i}">
       <div class="tm">${fmtTime(c.start)}<span class="dscore"></span>${sentenceButton(c.text, c.i)}</div>
-      <div><div class="en">${renderMarked(c.text, visibleMarks(c))}</div><div class="zh"${zhLowAttrs(c)}>${esc(c.zh)}</div></div>
+      <div><div class="en">${renderMarked(c.text, visibleMarks(c))}</div><div class="zh"${zhLowAttrs(c)}>${esc(zhText(c))}</div></div>
     </div>`).join("");
 }
 
@@ -141,7 +141,7 @@ function setCurrent(i) {
   caption.classList.toggle("interlinear", layered);
   caption.innerHTML = layered ? renderInterlinear(c.text, visibleMarks(c), c.gl, c.seg) : renderMarked(c.text, visibleMarks(c));
   // one Chinese line only: when each phrase shows its Chinese, the whole-sentence translation is left out
-  $("#capZh").textContent = layered ? "" : c.zh || "";
+  $("#capZh").textContent = layered ? "" : zhText(c);
   $("#capZh").hidden = layered;
   $("#capZh").toggleAttribute("data-low", !layered && !!c.zhLow);
   $("#capZh").title = !layered && c.zhLow ? ZH_LOW : "";
