@@ -21,7 +21,7 @@ from .config import HOST, LIBRARY_DIR, PORT, STATIC_DIR
 from .dictionary import Dictionary
 from .pipeline import Pipeline, ensure_annotation, list_library
 from . import asr, backup, goals, graded, i18n, keep, languages, placement, plan, reading, review, network, speaking, tts, usage, wordbook, words, writing
-from .settings import load_settings, save_settings, settings_from
+from .settings import delete_provider, load_settings, save_settings, settings_from
 
 _vocab_lock = words._lock  # held while a deleted video's sentences are kept for its words
 SAFE_ID = re.compile(r"^[A-Za-z0-9_-]{1,80}$")
@@ -777,6 +777,16 @@ def make_handler(app: App):
                                    "stats": speaking.delivery(result["words"], result["duration"])})
             settings_routes = ("/api/settings", "/api/settings/test", "/api/settings/models")
             body = self._body()
+            if p == "/api/settings/delete":  # forget one provider's address, model and key
+                try:
+                    provider = str(body.get("provider") or "") if isinstance(body, dict) else ""
+                    settings = delete_provider(provider)
+                    asr.forget_key(provider)
+                    return self._json(settings.public())
+                except ValueError as error:
+                    return self._json({"error": str(error)}, 400)
+                except OSError:
+                    return self._json({"error": "无法保存本机设置。"}, 500)
             if p in settings_routes:
                 if not body:
                     return self._json({"error": "请提交有效的设置。"}, 400)

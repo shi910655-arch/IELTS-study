@@ -56,3 +56,21 @@ def test_a_key_can_be_saved_without_switching_translation():
     # keepActive on the provider already in use is an ordinary save
     s = settings_from({"engine": "api", "provider": "deepseek", "model": "deepseek-v4-pro", "keepActive": True}, SAVED)
     assert (s.provider, s.model, s.api_key) == ("deepseek", "deepseek-v4-pro", "sk-saved")
+
+
+def test_deleting_a_provider_forgets_its_key(tmp_path, monkeypatch):
+    from ielts_study import settings as st
+
+    monkeypatch.setattr(st, "SETTINGS_PATH", tmp_path / "settings.json")
+    st._write(st.TranslationSettings("api", "https://api.deepseek.com", "deepseek-flash", "sk-in-use", "deepseek",
+                                     {"groq": {"base_url": "https://api.groq.com/openai/v1", "model": "", "api_key": "gsk"}}))
+    # deleting another provider keeps translation as it is
+    after = st.delete_provider("groq")
+    assert (after.engine, after.provider, after.api_key) == ("api", "deepseek", "sk-in-use")
+    assert "groq" not in after.api_profiles() and st.provider_access("groq")[1] == ""
+    # deleting the provider in use switches translation to offline and forgets its key
+    after = st.delete_provider("deepseek")
+    assert after.engine == "local" and st.provider_access("deepseek")[1] == ""
+    assert not any(p["hasApiKey"] for p in st.load_settings().public()["providers"])
+    with pytest.raises(ValueError):
+        st.delete_provider("nobody")

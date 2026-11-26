@@ -1356,5 +1356,10 @@
  "不到": "dưới",
  "token · 不到": "token · dưới",
  "token · 可估价部分不到": "token · phần ước tính được dưới",
- "（这句没有译出）": "(Không thể dịch câu này)"
+ "（这句没有译出）": "(Không thể dịch câu này)",
+ "删除这个服务商保存的地址和 API Key": "Xóa địa chỉ và API Key đã lưu cho nhà cung cấp này",
+ "翻译正在用它，删除后会改用本地翻译（离线）。": "Bản dịch đang sử dụng nó; sau khi xóa, bản dịch sẽ chuyển sang bản dịch cục bộ (ngoại tuyến). ",
+ "删除后这台电脑上不再保存它的 API Key，用它的云端语音识别也会停用。之后可以随时重新添加。": "Sau khi xóa, API Key của nó sẽ không còn được lưu trên máy tính này nữa, và tính năng nhận dạng giọng nói trên đám mây sử dụng nó cũng sẽ ngừng hoạt động. Bạn có thể thêm lại bất cứ lúc nào.",
+ "，翻译已改用本地翻译。": ", bản dịch đã chuyển sang bản dịch cục bộ.",
+ "已删除": "Đã xóa"
 }

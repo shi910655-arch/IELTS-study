@@ -1356,5 +1356,10 @@
  "不到": "under",
  "token · 不到": "token · under",
  "token · 可估价部分不到": "token · priced part under",
- "（这句没有译出）": "(This line could not be translated)"
+ "（这句没有译出）": "(This line could not be translated)",
+ "删除这个服务商保存的地址和 API Key": "Delete the address and API key saved for this provider",
+ "翻译正在用它，删除后会改用本地翻译（离线）。": "Translation is using it; after deleting, translation switches to local (offline). ",
+ "删除后这台电脑上不再保存它的 API Key，用它的云端语音识别也会停用。之后可以随时重新添加。": "Its API key will no longer be saved on this computer, and cloud speech recognition that uses it will stop. You can add it again at any time.",
+ "，翻译已改用本地翻译。": "; translation now uses local translation.",
+ "已删除": "Deleted"
 }

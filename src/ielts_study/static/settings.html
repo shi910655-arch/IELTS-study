@@ -766,10 +766,35 @@ if (form) {
         showMessage("");
         updateProvider();
       };
-      row.append(wrap, edit);
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "btn ghost provider-edit provider-delete";
+      remove.textContent = "删除";
+      remove.title = "删除这个服务商保存的地址和 API Key";
+      remove.onclick = () => deleteProvider(item);
+      row.append(wrap, edit, remove);
       loadModelList(item, select);
     }
     return row;
+  }
+
+  // Forget one provider's address, model and key. The one translation uses: translation switches to offline.
+  async function deleteProvider(item) {
+    const inUse = item.id === activeValue(savedSettings);
+    const detail = (inUse ? "翻译正在用它，删除后会改用本地翻译（离线）。" : "") +
+      "删除后这台电脑上不再保存它的 API Key，用它的云端语音识别也会停用。之后可以随时重新添加。";
+    if (!(await confirmDialog(`删除 ${item.name}？`, { detail, ok: "删除", danger: true }))) return;
+    controls.disabled = true;
+    try {
+      const settings = await api("/api/settings/delete", { method: "POST", body: { provider: item.id } });
+      render(settings);
+      showMessage(inUse ? `已删除 ${item.name}，翻译已改用本地翻译。` : `已删除 ${item.name}。`);
+      window.dispatchEvent(new Event("providerschange"));
+    } catch (error) {
+      showMessage(error.message, true);
+    } finally {
+      controls.disabled = false;
+    }
   }
 
   function render(settings) {

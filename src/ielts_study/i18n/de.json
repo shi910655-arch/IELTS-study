@@ -1356,5 +1356,10 @@
  "不到": "unter",
  "token · 不到": "Token · unter",
  "token · 可估价部分不到": "Token · berechenbarer Teil unter",
- "（这句没有译出）": "(Diese Zeile konnte nicht übersetzt werden)"
+ "（这句没有译出）": "(Diese Zeile konnte nicht übersetzt werden)",
+ "删除这个服务商保存的地址和 API Key": "Löschen Sie die für diesen Anbieter gespeicherte Adresse und den API Key",
+ "翻译正在用它，删除后会改用本地翻译（离线）。": "Die Übersetzung verwendet ihn gerade; nach dem Löschen wird auf lokale Übersetzung (offline) umgestellt. ",
+ "删除后这台电脑上不再保存它的 API Key，用它的云端语音识别也会停用。之后可以随时重新添加。": "Nach dem Löschen wird der API Key nicht mehr auf diesem Computer gespeichert, und die Cloud-Spracherkennung, die ihn verwendet, wird ebenfalls deaktiviert. Sie können ihn jederzeit wieder hinzufügen.",
+ "，翻译已改用本地翻译。": "; die Übersetzung verwendet jetzt die lokale Übersetzung.",
+ "已删除": "Gelöscht"
 }

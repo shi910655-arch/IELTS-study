@@ -132,6 +132,16 @@ def migrate_keys() -> int:
         return moved
 
 
+def forget_key(provider: str) -> None:
+    """A provider deleted in Settings: drop any key for it still kept from the old recognition form."""
+    with _lock:
+        current = load_settings()
+        if provider in current.keys:
+            keys = {k: v for k, v in current.keys.items() if k != provider}
+            _write(AsrSettings(current.engine, current.model, current.provider, current.base_url,
+                               current.cloud_model, keys))
+
+
 def save_settings(payload: dict) -> AsrSettings:
     with _lock:
         current = load_settings()

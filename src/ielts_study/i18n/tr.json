@@ -1356,5 +1356,10 @@
  "不到": "altında",
  "token · 不到": "token · altında",
  "token · 可估价部分不到": "token · fiyatlandırılabilir kısım altında",
- "（这句没有译出）": "(Bu satır çevrilemedi)"
+ "（这句没有译出）": "(Bu satır çevrilemedi)",
+ "删除这个服务商保存的地址和 API Key": "Bu sağlayıcı için kaydedilen adresi ve API anahtarını sil",
+ "翻译正在用它，删除后会改用本地翻译（离线）。": "Çeviri bunu kullanıyor; silindikten sonra çeviri yerel (çevrimdışı) çeviriye geçer. ",
+ "删除后这台电脑上不再保存它的 API Key，用它的云端语音识别也会停用。之后可以随时重新添加。": "Silindikten sonra API anahtarı bu bilgisayarda artık saklanmaz ve bunu kullanan bulut konuşma tanıma da durur. Daha sonra istediğiniz zaman yeniden ekleyebilirsiniz.",
+ "，翻译已改用本地翻译。": "; çeviri artık yerel çeviriyi kullanıyor.",
+ "已删除": "Silindi"
 }

@@ -1356,5 +1356,10 @@
  "不到": "moins de",
  "token · 不到": "token · moins de",
  "token · 可估价部分不到": "token · partie estimable moins de",
- "（这句没有译出）": "(Cette ligne n'a pas pu être traduite)"
+ "（这句没有译出）": "(Cette ligne n'a pas pu être traduite)",
+ "删除这个服务商保存的地址和 API Key": "Supprimer l'adresse et la clé API enregistrées pour ce fournisseur",
+ "翻译正在用它，删除后会改用本地翻译（离线）。": "La traduction l'utilise ; après suppression, la traduction passera à la traduction locale (hors ligne). ",
+ "删除后这台电脑上不再保存它的 API Key，用它的云端语音识别也会停用。之后可以随时重新添加。": "Sa clé API ne sera plus enregistrée sur cet ordinateur et la reconnaissance vocale cloud qui l'utilise sera désactivée. Vous pourrez le réajouter à tout moment.",
+ "，翻译已改用本地翻译。": "; la traduction utilise désormais la traduction locale.",
+ "已删除": "Supprimé"
 }

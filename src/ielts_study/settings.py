@@ -167,6 +167,26 @@ def provider_access(provider: str, settings: TranslationSettings | None = None) 
     return (profile.get("base_url") or default).rstrip("/"), profile.get("api_key", "")
 
 
+def delete_provider(provider: str) -> TranslationSettings:
+    """Forget a provider's address, model and API key. If translation was using it, translation switches to the
+    offline engine; the other providers are kept as they are."""
+    if provider not in API_PROVIDERS:
+        raise ValueError("请选择一个 API 服务商。")
+    with _lock:
+        current = load_settings()
+        profiles = current.api_profiles()
+        profiles.pop(provider, None)
+        if current.provider == provider:
+            new = TranslationSettings(engine="local", profiles=profiles)
+        else:
+            if current.base_url:
+                profiles.pop(current.provider, None)  # held in the top-level fields, as api_profiles() expects
+            new = TranslationSettings(current.engine, current.base_url, current.model, current.api_key,
+                                      current.provider, profiles)
+        _write(new)
+        return new
+
+
 def store_key(provider: str, key: str, base_url: str = "") -> None:
     """Save a key for a provider that has none yet (moving keys saved elsewhere before), keeping everything else."""
     with _lock:

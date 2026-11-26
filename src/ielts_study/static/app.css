@@ -453,6 +453,7 @@ mark.word { padding: 0 2px; border-radius: 3px; background: var(--word-bg); colo
 .provider-model select { width: 100%; min-height: 34px; font-size: 13px; }
 .provider-edit { min-height: 34px; padding: 4px 12px; color: var(--muted); font-size: 13px; }
 .provider-edit:hover { color: var(--text); }
+.provider-delete:hover { color: var(--bad); }
 /* the form opens directly under the row being filled in */
 .provider-form { margin: 2px 0 6px; padding: 16px 16px 4px; border: 1px solid var(--accent); border-radius: 14px; background: var(--surface); }
 .provider-form .settings-grid { grid-template-columns: minmax(0, 1fr); }
