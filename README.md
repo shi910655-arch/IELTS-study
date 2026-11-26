@@ -21,7 +21,9 @@ IELTS Study is a local study app for macOS, Windows, and Linux. Paste a YouTube,
 
 ## Local tools and optional services
 
-- **Translation, recognition and read-aloud.** Use the ECDICT offline dictionary, Argos local translation (lines it is probably wrong about are marked with a “?”) and, on Apple silicon Macs, an optional enhanced offline model, Tencent HY-MT1.5-7B (Settings → Models and services → Local translation; 16 GB download, 4.3 GB after conversion; Tencent HY Community License, not for the EU, UK or South Korea), Whisper speech recognition, and Kokoro read-aloud. Some resources download on first use. The app also supports compatible cloud translation and speech recognition.
+- **Offline translation.** Works without internet or API costs. Every computer gets Argos; lines it is probably wrong about are marked with a “?”. On Apple silicon Macs you can also download Tencent HY-MT1.5-7B in Settings → Models and services → Local translation (16 GB download, 4.3 GB after conversion; Tencent HY Community License, which does not apply in the EU, UK or South Korea). In a blind test on 120 random lines from videos it had never seen, it translated 93% correctly, against 74% for Argos.
+- **API translation.** A compatible API such as DeepSeek or OpenAI adds a translation under each phrase and AI feedback on speaking and writing. Settings shows the tokens each request used, with an estimated cost for DeepSeek, and saved keys can be deleted at any time.
+- **Dictionary, recognition and read-aloud.** Use the ECDICT offline dictionary, Whisper speech recognition and Kokoro read-aloud. Some resources download on first use. Cloud speech recognition is also supported.
 - **Languages.** Choose from 16 languages. Set your interface language separately from the language used for translations and explanations.
 - **Phone access.** Enable access on the same Wi-Fi and scan a QR code to review words, practise dictation, or read on your phone.
 - **Backups.** Export your study history to ZIP, with videos optional. Restore from a ZIP or schedule daily backups to a folder of your choice.
