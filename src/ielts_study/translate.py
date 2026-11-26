@@ -16,7 +16,7 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, Request, build_opener, urlopen
 
-from . import languages, usage
+from . import languages, local_mt, usage
 from .settings import TranslationSettings
 
 # ------------------------------------------------------------------ offline translation (Argos models)
@@ -271,8 +271,21 @@ NEGATION_IDIOMS = re.compile(
     r"no longer|not until|none other than|can(?:'t|not) stress (?:this |that )?enough)\b", re.I)
 
 
+def _number_equivalents(source: str, text: str) -> str:
+    """The source without figures the translation rightly says in words: "10% off" is 9折, "100%" is 完全,
+    "Covid 19" is 新冠."""
+    source = re.sub(r"\bcovid[- ]?19\b", "Covid", source, flags=re.I)
+    if "折" in text:
+        source = re.sub(r"\d+(?:\.\d+)?\s*%\s*off\b", "off", source, flags=re.I)
+    if re.search(r"完全|全部|百分之百|彻底|全面", text):
+        source = re.sub(r"\b100\s*%", "fully", source)
+    return source
+
+
 def _invented_numbers(source: str, text: str) -> bool:
     """A figure in the translation that the English never mentions ("to 2010" -> "截至2010年12月31日")."""
+    if "折" in text and re.search(r"%\s*off\b", source, re.I):
+        text = re.sub(r"\d+(?:\.\d+)?\s*折", "折", text)  # 10% off is 9折
     allowed = set(re.findall(r"\d+", source.replace(",", "")))
     allowed |= {NUMBER_WORDS[w] for w in re.findall(r"[a-z]+", source.lower()) if w in NUMBER_WORDS}
     for group in re.findall(r"\d+", text.replace(",", "")):
@@ -309,7 +322,7 @@ def _problems(source: str, raw: str, text: str, score: float, chinese: bool) -> 
         words, han = _content_words(source), len(HAN.findall(text))
         if words >= 12 and han < 6:
             found.add("short")
-        source_digits = sorted(re.sub(r"\D", "", source))
+        source_digits = sorted(re.sub(r"\D", "", _number_equivalents(source, text)))
         if source_digits and not CHINESE_NUMERALS.search(text):
             have = re.sub(r"\D", "", text)
             if any(have.count(d) < source_digits.count(d) for d in set(source_digits)):
@@ -331,6 +344,47 @@ def _badness(problems: set[str]) -> int:
 
 
 def translate_local(texts: list[str], lang: str = "zh-CN", progress=None, log=lambda msg: None) -> list[tuple[str, bool]]:
+    """Offline translation: (translation, low) per line. With the enhanced model installed (local_mt.py, Apple
+    Silicon) it does the work and Argos covers the lines whose translation fails the checks; otherwise Argos."""
+    if local_mt.ready():
+        try:
+            return _translate_enhanced(texts, lang, progress, log)
+        except Exception as error:  # noqa: BLE001 - never lose an import over the enhanced model
+            log(f"⚠ 本地增强翻译出错，改用标准离线翻译。 | {type(error).__name__}")
+    return _translate_argos(texts, lang, progress, log)
+
+
+def _translate_enhanced(texts: list[str], lang: str, progress, log) -> list[tuple[str, bool]]:
+    chinese = languages.is_chinese(lang)
+    unique = list(dict.fromkeys(t.strip() for t in texts if t.strip()))
+    done: dict[str, tuple[str, bool]] = {}
+    todo = []
+    for text in unique:
+        reply = _short_reply(text) if chinese else None
+        if reply is not None:
+            done[text] = (reply, False)
+        else:
+            todo.append(text)
+    if todo:
+        raw = local_mt.translate(todo, lang, progress)
+        doubtful = []
+        for text, answer in zip(todo, raw):
+            finished = _finish(answer, text, lang)
+            problems = _problems(text, answer, finished, 0.0, chinese) - {"low"}
+            done[text] = (finished, bool(problems))
+            if problems:
+                doubtful.append((text, problems))
+        if doubtful:  # the checks found something: see whether Argos does better on those lines
+            argos = _translate_argos([t for t, _ in doubtful], lang, None, log)
+            for (text, problems), (other, other_low) in zip(doubtful, argos):
+                mine = _badness(problems)
+                theirs = _badness(_problems(text, other, other, 0.0, chinese) - {"low"}) + (1 if other_low else 0)
+                if other and theirs < mine:
+                    done[text] = (other, other_low)
+    return [done.get(t.strip(), ("", False)) for t in texts]
+
+
+def _translate_argos(texts: list[str], lang: str = "zh-CN", progress=None, log=lambda msg: None) -> list[tuple[str, bool]]:
     """Translate lines offline: (translation, low) per line, where low marks a translation that is probably wrong
     (shown with a "?"); a line that could not be translated at all is ("", True).
 

@@ -13,7 +13,7 @@ import time
 import traceback
 import uuid
 
-from . import usage
+from . import local_mt, usage
 from .config import ARTICLES_DIR
 
 MAX_CHARS = 40_000
@@ -115,7 +115,7 @@ def run_article_job(pipeline, job, text: str, title: str, extra: dict | None = N
             job.title = title or (cues[0]["text"][:60] + ("…" if len(cues[0]["text"]) > 60 else ""))
             settings = load_settings()
             pipeline._set(job, "translate")
-            log(f"使用{'API' if settings.engine == 'api' else '本地'}翻译 {len(cues)} 句…")
+            log(f"使用{'API' if settings.engine == 'api' else local_mt.describe()}翻译 {len(cues)} 句…")
             lang = learner_language()
             spent = usage.snapshot()
             translator = translate_cues(cues, lambda p: setattr(job, "percent", p), settings=settings, log=log,
@@ -171,7 +171,7 @@ def run_retranslate_job(pipeline, job) -> None:
                 annotate_cues(data["cues"], pipeline.dic, lang=lang)
                 data["annotation"] = ANNOTATION_VERSION
             pipeline._set(job, "translate")
-            job.log.append(f"使用{'API' if settings.engine == 'api' else '本地'}翻译 {len(data['cues'])} 句…")
+            job.log.append(f"使用{'API' if settings.engine == 'api' else local_mt.describe()}翻译 {len(data['cues'])} 句…")
             spent = usage.snapshot()
             same_language = data.get("lang", "zh-CN") == lang  # then a line that fails keeps its old translation
             data["translator"] = translate_cues(data["cues"], lambda p: setattr(job, "percent", p),

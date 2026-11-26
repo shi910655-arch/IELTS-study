@@ -82,6 +82,14 @@
           </fieldset>
           <p id="settingsStatus" class="settings-status" role="status" aria-live="polite"></p>
         </form>
+        <section class="settings-section" id="localTranslation" aria-labelledby="localMtTitle">
+          <h3 id="localMtTitle">本地翻译</h3>
+          <p class="settings-lead">选「本地翻译（离线）」时用这里的模型：不联网，也不花钱。</p>
+          <div class="settings-row">
+            <div class="settings-label"><span>增强翻译模型</span><small id="localMtState">正在检查…</small></div>
+            <button type="button" class="btn" id="localMtDownload" hidden>下载</button>
+          </div>
+        </section>
         <section class="settings-section" id="speech" aria-labelledby="speechTitle">
           <h3 id="speechTitle">语音识别</h3>
           <p class="settings-lead">视频没有字幕时，以及口语练习的录音，都用这里选的方式转成英文。</p>
@@ -338,6 +346,27 @@ for (const control of preferenceControls) {
   });
 }
 window.addEventListener("pageshow", () => preferenceControls.forEach(showPreference));
+
+// 本地翻译: the enhanced offline model (Tencent HY-MT on Apple Silicon), downloaded once.
+if ($("#localMtState")) {
+  let timer = null;
+  const showLocalMt = async () => {
+    clearTimeout(timer);
+    let s;
+    try { s = await api("/api/localmt"); } catch { return; }
+    $("#localMtDownload").hidden = !(s.status === "missing" || s.status === "error");
+    $("#localMtState").textContent =
+      s.status === "unsupported" ? "需要 Apple 芯片的 Mac。这台电脑用标准离线翻译（Argos）。"
+      : s.status === "ready" ? `${s.name} 已就绪：离线翻译由它完成，准确率明显高于标准模型。`
+      : s.status === "downloading" ? `正在下载 ${s.name}… ${s.percent}%`
+      : s.status === "converting" ? "正在转换模型，几分钟后就好…"
+      : s.status === "error" ? `下载失败：${s.error}`
+      : `${s.name}：离线翻译准确率明显更高。需要下载约 ${s.downloadGb} GB，转换后占 ${s.diskGb} GB。使用腾讯混元社区许可证，不适用于欧盟、英国和韩国。`;
+    if (s.status === "downloading" || s.status === "converting") timer = setTimeout(showLocalMt, 2000);
+  };
+  $("#localMtDownload").onclick = async () => { await api("/api/localmt/download", { method: "POST" }); showLocalMt(); };
+  showLocalMt();
+}
 
 // 朗读口音: say which voice will be used, and let it be heard.
 if ($("#voiceTry")) {

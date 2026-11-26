@@ -207,3 +207,10 @@ def test_a_dropped_negation_is_caught_but_idioms_are_not(model):
 def test_bands_are_scores_not_groups(model):
     model.replies["students from score five and six up to the sevens"] = ("学生从5分到6分到7分", -0.8)
     assert translate.translate_local(["students from band five and six up to the sevens"])[0][0] == "学生从5分到6分到7分"
+
+
+def test_figures_said_in_words_are_not_missing():
+    assert "numbers" not in translate._problems("I want to give you 10% off our VIP course", "", "我想给你VIP课程9折优惠。", 0.0, True)
+    assert "numbers" not in translate._problems("You are not used to operating 100% in English", "", "你不习惯完全用英语。", 0.0, True)
+    assert "numbers" not in translate._problems("vaccines against flu or Covid 19", "", "预防流感或新冠的疫苗", 0.0, True)
+    assert "numbers" in translate._problems("We had 20 students.", "", "我们有学生。", 0.0, True)

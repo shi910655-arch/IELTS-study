@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from . import usage
+from . import local_mt, usage
 from .config import LIBRARY_DIR
 from .settings import load_settings
 
@@ -121,7 +121,7 @@ class Pipeline:
                     annotate_cues(cues, self.dic, lambda p: setattr(job, "percent", p), lang=lang)
                     data["annotation"] = ANNOTATION_VERSION
                 self._set(job, "translate")
-                engine = "API" if settings.engine == "api" else "本地"
+                engine = "API" if settings.engine == "api" else local_mt.describe()
                 log(f"使用{engine}翻译 {len(cues)} 句字幕…")
                 spent = usage.snapshot()
                 same_language = data.get("lang", "zh-CN") == lang  # then a line that fails keeps its old translation
@@ -207,7 +207,7 @@ class Pipeline:
                     raise RuntimeError("没有识别到英文语音或字幕")
 
                 self._set(job, "translate")
-                engine = "API" if settings.engine == "api" else "本地"
+                engine = "API" if settings.engine == "api" else local_mt.describe()
                 log(f"使用{engine}翻译 {len(cues)} 句字幕…")
                 lang = learner_language()
                 spent = usage.snapshot()

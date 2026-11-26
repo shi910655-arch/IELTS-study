@@ -21,7 +21,7 @@ IELTS Study is a local study app for macOS, Windows, and Linux. Paste a YouTube,
 
 ## Local tools and optional services
 
-- **Translation, recognition and read-aloud.** Use the ECDICT offline dictionary, Argos local translation (lines it is probably wrong about are marked with a “?”), Whisper speech recognition, and Kokoro read-aloud. Some resources download on first use. The app also supports compatible cloud translation and speech recognition.
+- **Translation, recognition and read-aloud.** Use the ECDICT offline dictionary, Argos local translation (lines it is probably wrong about are marked with a “?”) and, on Apple silicon Macs, an optional enhanced offline model, Tencent HY-MT1.5-7B (Settings → Models and services → Local translation; 16 GB download, 4.3 GB after conversion; Tencent HY Community License, not for the EU, UK or South Korea), Whisper speech recognition, and Kokoro read-aloud. Some resources download on first use. The app also supports compatible cloud translation and speech recognition.
 - **Languages.** Choose from 16 languages. Set your interface language separately from the language used for translations and explanations.
 - **Phone access.** Enable access on the same Wi-Fi and scan a QR code to review words, practise dictation, or read on your phone.
 - **Backups.** Export your study history to ZIP, with videos optional. Restore from a ZIP or schedule daily backups to a folder of your choice.

@@ -20,7 +20,7 @@ from urllib.parse import parse_qs, parse_qsl, quote, unquote, urlencode, urlpars
 from .config import HOST, LIBRARY_DIR, PORT, STATIC_DIR
 from .dictionary import Dictionary
 from .pipeline import Pipeline, ensure_annotation, list_library
-from . import asr, backup, goals, graded, i18n, keep, languages, placement, plan, reading, review, network, speaking, tts, usage, wordbook, words, writing
+from . import asr, backup, goals, graded, i18n, keep, languages, local_mt, placement, plan, reading, review, network, speaking, tts, usage, wordbook, words, writing
 from .settings import delete_provider, load_settings, save_settings, settings_from
 
 _vocab_lock = words._lock  # held while a deleted video's sentences are kept for its words
@@ -248,7 +248,7 @@ def dictated_counts() -> tuple[int, int]:
 
 
 # Only this computer may change these (a phone in LAN mode can study, not read API keys or stop the server).
-LOCAL_ONLY = ("/api/settings", "/api/usage", "/api/asr", "/api/network", "/api/backup", "/api/shutdown", "/api/restart")
+LOCAL_ONLY = ("/api/settings", "/api/usage", "/api/localmt", "/api/asr", "/api/network", "/api/backup", "/api/shutdown", "/api/restart")
 
 # API responses whose Chinese is content (subtitles, meanings, saved words): shown in the translation
 # language. Everything else is interface text and follows the interface language.
@@ -620,6 +620,8 @@ def make_handler(app: App):
                 return self._json(goals.today())
             if p == "/api/usage":
                 return self._json(usage.summary())
+            if p == "/api/localmt":
+                return self._json(local_mt.status())
             if p == "/api/profile":
                 return self._json(placement.public_profile(load_vocab()))
             if p == "/api/placement":
@@ -834,6 +836,8 @@ def make_handler(app: App):
                 return self._json(reading.submit_article(app.pipeline, text, title).to_json())
             if p == "/api/tts/download":
                 return self._json(tts.start_download())
+            if p == "/api/localmt/download":
+                return self._json(local_mt.start_download())
             if p == "/api/speaking/shadow":
                 text = str(body.get("text") or "")[:600]
                 try:

@@ -1361,5 +1361,17 @@
  "翻译正在用它，删除后会改用本地翻译（离线）。": "Translation is using it; after deleting, translation switches to local (offline). ",
  "删除后这台电脑上不再保存它的 API Key，用它的云端语音识别也会停用。之后可以随时重新添加。": "Its API key will no longer be saved on this computer, and cloud speech recognition that uses it will stop. You can add it again at any time.",
  "，翻译已改用本地翻译。": "; translation now uses local translation.",
- "已删除": "Deleted"
+ "已删除": "Deleted",
+ "选「本地翻译（离线）」时用这里的模型：不联网，也不花钱。": "Used when you choose 'Local translation (offline)': no internet, no cost.",
+ "增强翻译模型": "Enhanced translation model",
+ "需要 Apple 芯片的 Mac。这台电脑用标准离线翻译（Argos）。": "Needs a Mac with Apple silicon. This computer uses standard offline translation (Argos).",
+ "已就绪：离线翻译由它完成，准确率明显高于标准模型。": "is ready: offline translation uses it, and it is clearly more accurate than the standard model.",
+ "正在下载": "Downloading",
+ "正在转换模型，几分钟后就好…": "Converting the model; this takes a few minutes…",
+ "：离线翻译准确率明显更高。需要下载约": ": much more accurate offline translation. Download about",
+ "GB，转换后占": "GB; after conversion it takes",
+ "GB。使用腾讯混元社区许可证，不适用于欧盟、英国和韩国。": "GB. Licensed under the Tencent HY Community License, which does not apply in the EU, the UK or South Korea.",
+ "正在检查…": "Checking…",
+ "使用本地增强模型翻译": "Translating with the local enhanced model:",
+ "本地增强翻译出错，改用标准离线翻译": "The local enhanced model failed; using standard offline translation"
 }
